@@ -36,4 +36,10 @@ subprocess.CalledProcessError: Command '['ls', '-l', '/no/such dir']' returned n
 Command: ls -l '/no/such dir'
 ```
 
+The command of a successful command can also be shown:
+```
+cp = pretty_subprocess.run(('/bin/ls','/tmp'),capture_output=True)
+print(cp.command)
+```
+
 Requires Python 3.12 or later.
