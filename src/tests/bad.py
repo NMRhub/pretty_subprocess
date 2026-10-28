@@ -15,12 +15,12 @@ except:
 try:
     cp = pretty_subprocess.run(('/bin/false','fails','today'),check=True)
 except:
-    logging.exception('false')
+    logging.exception('false fails today')
 
 try:
     cp = pretty_subprocess.run(5)
 except:
-    logging.exception('false')
+    logging.exception('int')
 
 #pretty_subprocess.run("/bin/junk")
 
