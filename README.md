@@ -12,7 +12,8 @@ result = pretty_subprocess.run(['ls', '-l', '/no/such dir'], check=True)
 ### `run(*args, **kwargs) -> subprocess.CompletedProcess`
 
 A drop-in replacement for `subprocess.run`. All positional and keyword arguments
-are passed through unchanged. The `CompletedProcess` is annotated with "command" attribute and returned.
+are passed through unchanged. `PrettyCompletedProcess` CompletedProcess subclass is 
+returned ; it includes the joined command.
 
 If `subprocess.run` raises an exception (e.g. `CalledProcessError` with `check=True`,
 `FileNotFoundError` for a missing executable, `TimeoutExpired`), a note with the

@@ -4,6 +4,7 @@ import logging
 import os
 import subprocess
 import shlex
+from typing import Any
 pretty_subprocess_logger = logging.getLogger(__name__)
 
 __version__ =  importlib.metadata.version('pretty_subprocess')
@@ -14,7 +15,13 @@ def _to_str(a)->str:
         return os.fsdecode(a)
     return str(a)
 
-def run(*args,**kwargs)->subprocess.CompletedProcess:
+class PrettyCompletedProcess(subprocess.CompletedProcess[Any]):
+
+    def __init__(self, cp: subprocess.CompletedProcess[Any], command: str):
+        super().__init__(cp.args, cp.returncode, cp.stdout, cp.stderr)
+        self.command : str = command
+
+def run(*args,**kwargs)->PrettyCompletedProcess:
     cmd = "Unknown"
     try:
         c = args[0] if args else kwargs.get('args')
@@ -26,8 +33,7 @@ def run(*args,**kwargs)->subprocess.CompletedProcess:
         except TypeError:
             pass
         cp = subprocess.run(*args,**kwargs)
-        setattr(cp,'command',cmd)
-        return cp
+        return PrettyCompletedProcess(cp,cmd)
     except Exception as e:
         e.add_note(f"Command: {cmd}")
         raise
